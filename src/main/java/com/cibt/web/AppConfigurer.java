@@ -5,6 +5,7 @@
  */
 package com.cibt.web;
 
+import java.util.Properties;
 import javax.sql.DataSource;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -50,6 +52,24 @@ public class AppConfigurer {
     @Bean
     public JdbcTemplate getJdbcTemplate(){
       return new JdbcTemplate(getDataSource());
+    }
+    
+    @Bean
+    public Properties getHibernateProperties(){
+        Properties properties=new Properties();
+        properties.put("hibernate.dialect","org.hibernate.dialect");
+        properties.put("show_sql",true);
+        return properties;
+    }
+    
+    @Bean
+    public LocalSessionFactoryBean getSessionFactory(){
+        LocalSessionFactoryBean bean
+                =new LocalSessionFactoryBean();
+        bean.setPackagesToScan("com.cibt.web.entity");
+        bean.setDataSource(getDataSource());
+        bean.setHibernateProperties(getHibernateProperties());
+        return bean;
     }
     
     @Bean

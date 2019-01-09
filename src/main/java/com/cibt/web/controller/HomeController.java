@@ -30,9 +30,6 @@ public class HomeController {
     @Autowired
     private CourseDAO CourseDAO;
     
-    @Autowired
-    private JdbcTemplate JdbcTemplate;
-    
     @GetMapping("/")
     public String index(Model model) {
         
@@ -45,27 +42,7 @@ public class HomeController {
         return "contact/index";   
 
     }
-    @PostMapping("/contact")
-    @ResponseBody
-    public String contactPost(@ModelAttribute("contact")
-    Contact contact,@RequestParam(value = "sendMe",required = false) boolean sendMe){
-       
-        String sql="insert into contacts(name,emial,"
-                + "subjects,message,status)values(?,?,?,?,?)";
-        int result = JdbcTemplate
-                .update(sql,new Object[]{
-                    contact.getName(),
-                    contact.getEmial(),
-                    contact.getSubject(),
-                    contact.getMessage(),
-                    contact.isStatus()
-                
-                });
-        String message="<h1>Result: " + result;
-        message +=(sendMe)?"send copy":"do not send copy";
-        message +="</h1>";
-        return message;
-    }
+    
     }
    
     

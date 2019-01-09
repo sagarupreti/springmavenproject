@@ -6,16 +6,39 @@
 package com.cibt.web.entity;
 
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author ideapad-520S
  */
+@Entity
+@Table(name = "courses")
 public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
-    private String name,code;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "code")
+    private String code;
+    @Column(name = "fees")
     private int fees;
-    private Date addedDate,modifiedDate;
+    @Column(name = "added_date",insertable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date addedDate;
+    @Column(name = "modified_date",nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modifiedDate;
+    @Column(name = "status")
     private boolean status;
 
     public Course() {
